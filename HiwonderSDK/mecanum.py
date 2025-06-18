@@ -78,3 +78,35 @@ class MecanumChassis:
         else:
             return self.set_velocity(velocity, direction, 0)
 
+    # Fonction personnalisée pour des mouvements simples
+    
+    def tourner_à_droite(self,vitesse_de_rotation= 0.3):
+        """Cette fonction permet de faire tourner le robot vers la droite.
+        """
+        self.set_velocity(0, 90, vitesse_de_rotation)
+       
+    def tourner_à_gauche(self,vitesse_de_rotation=-0.3):
+        """Cette fonction permet de faire tourner le robot vers la gauche..
+        """
+        self.set_velocity(0, 270, vitesse_de_rotation)
+    
+    def avancer(self, vitesse):
+        """Cette fonction permet de faire avancer le robot.
+        """
+        self.set_velocity(vitesse, 0, 0)
+        
+    def reculer(self, vitesse):
+        """Cette fonction permet de faire reculer le robot.
+        """
+        self.set_velocity(vitesse, 180, 0)
+              
+    def translation_gauche(self, vitesse):
+        """Cette fonction permet de faire translater le robot vers la gauche.
+        """
+        self.set_velocity(vitesse, 270, 0)
+        
+    
+    def translation_droite(self, vitesse):
+        """Cette fonction permet de faire translater le robot vers la droite.
+        """
+        self.set_velocity(vitesse, 90, 0)
