@@ -8,7 +8,8 @@ from smbus2 import SMBus, i2c_msg
 from rpi_ws281x import PixelStrip
 from rpi_ws281x import Color as PixelColor
 
-#幻尔科技raspberrypi扩展板sdk#
+
+
 
 if sys.version_info.major == 2:
     print('Please run this program with python3!')
@@ -387,6 +388,22 @@ def getBusServoLoadStatus(id):
             return msg
 
 setBuzzer(0)
+
+
+def set_LED_color(led_index, r, g, b):
+    """
+    设置LED灯颜色
+    :param led_index: LED灯编号，从0开始
+    :param r: 红色分量，范围0-255
+    :param g: 绿色分量，范围0-255
+    :param b: 蓝色分量，范围0-255
+    """
+    if led_index < 0 or led_index >= RGB.numPixels():
+        raise ValueError("Invalid LED index: {}".format(led_index))
+
+    RGB.setPixelColor(led_index, PixelColor(r, g, b))
+    RGB.show()
+
 
 # setMotor(1, 60)
 # setMotor(2, 60)

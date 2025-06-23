@@ -42,7 +42,7 @@ class Camera:
             self.correction = correction
             self.opened = True
         except Exception as e:
-            print('打开摄像头失败:', e)
+            print('Camera error on open:', e)
 
     def camera_close(self):
         try:
@@ -53,7 +53,7 @@ class Camera:
                 time.sleep(0.05)
             self.cap = None
         except Exception as e:
-            print('关闭摄像头失败:', e)
+            print('Camera error on close:', e)
 
     def camera_task(self):
         while True:
@@ -85,7 +85,7 @@ class Camera:
                 else:
                     time.sleep(0.01)
             except Exception as e:
-                print('获取摄像头画面出错:', e)
+                print('Error while getting image in camera:', e)
                 time.sleep(0.01)
 
 if __name__ == '__main__':

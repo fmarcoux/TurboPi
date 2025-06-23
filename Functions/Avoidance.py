@@ -15,7 +15,7 @@ import HiwonderSDK.Sonar as Sonar
 import HiwonderSDK.Board as Board
 import HiwonderSDK.mecanum as mecanum
 
-# 超声波避障
+# Évitement d'obstacles par ultrasons
 
 if sys.version_info.major == 2:
     print('Please run this program with python3!')
@@ -39,7 +39,7 @@ stopMotor = True
 __isRunning = False
 
 
-# 初始位置
+# Position initiale du robot
 def initMove():
     car.set_velocity(0,90,0)
     servo_data = yaml_handle.get_yaml_data(yaml_handle.servo_file_path)
@@ -48,7 +48,7 @@ def initMove():
     Board.setPWMServoPulse(1, servo1, 1000)
     Board.setPWMServoPulse(2, servo2, 1000)
 
-# 变量重置
+# Réinitialisation des variables
 def reset():
     global turn
     global speed
@@ -67,15 +67,15 @@ def reset():
     forward = True
     stopMotor = True
     __isRunning = False
-    
-# app初始化调用
+
+    # App initialization call
 def init():
     print("Avoidance Init")
     initMove()
     reset()
     
 __isRunning = False
-# app开始玩法调用
+# App start call
 def start():
     global __isRunning
     global stopMotor
@@ -88,7 +88,7 @@ def start():
     __isRunning = True
     print("Avoidance Start")
 
-# app停止玩法调用
+# App stop call
 def stop():
     global __isRunning
     __isRunning = False
@@ -97,30 +97,30 @@ def stop():
     car.set_velocity(0,90,0)
     print("Avoidance Stop")
 
-# app退出玩法调用
+# App exit call
 def exit():
     global __isRunning
     __isRunning = False
     car.set_velocity(0,90,0)
     time.sleep(0.3)
-    car.set_velocity(0,90,0) # 控制机器人移动函数,线速度0(0~100)，方向角90(0~360)，偏航角速度0(-2~2)
+    car.set_velocity(0,90,0) # Control the robot movement function, linear speed 0 (0~100), direction angle 90 (0~360), yaw angular speed 0 (-2~2)
     HWSONAR.setPixelColor(0, Board.PixelColor(0, 0, 0))
     HWSONAR.setPixelColor(1, Board.PixelColor(0, 0, 0))
     print("Avoidance Exit")
 
-# 设置避障速度
+# Définir la vitesse d'évitement d'obstacles
 def setSpeed(args):
     global speed
     speed = int(args[0])
     return (True, ())
  
-# 设置避障阈值    
+# Définir le seuil d'évitement d'obstacles
 def setThreshold(args):
     global Threshold
     Threshold = args[0]
     return (True, (Threshold,))
 
-# 获取当前避障阈值
+# Get current avoidance threshold
 def getThreshold(args):
     global Threshold
     return (True, (Threshold,))
