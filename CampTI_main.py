@@ -11,27 +11,34 @@ import Camera
 import time
 import signal
 import HiwonderSDK.mecanum as mecanum
+from multiprocessing import Event
+
+
+
+#Stop event utilise pour arrêter proprement le programme
+stop_event = Event()
 
 chassis = mecanum.MecanumChassis()
+suiveur_de_ligne = SuiveurDeLigne.SuiveurDeLigne(stop_event)
+detecteur_couleur = DetecteurCouleur.DetecteurDeCouleur()
+sonar = DetecteurDistance.DetecteurDeDistance()
 
-
-start = True
 
 def Stop(signum, frame):
     print("CLEAN STOP")
-    global start
+    global stop_event
 
-    start = False
+    if not stop_event.is_set():
+        stop_event.set()
+        
     camera = Camera.Camera()
     camera.camera_close()
     
 
-
-
 signal.signal(signal.SIGINT, Stop)
 
 
-suiveur_de_ligne = SuiveurDeLigne.SuiveurDeLigne()
+
 
 
 if __name__ == "__main__":
@@ -49,14 +56,13 @@ if __name__ == "__main__":
     
     
     # ÉCRIRE VOTRE CODE ICI
-    bear = DetecteurCouleur.DetecteurDeCouleur()
-    sonar = DetecteurDistance.DetecteurDeDistance()
+    
     suiveur_de_ligne.test()
     print(sonar.detecteur_distance())
     time.sleep(3)
     suiveur_de_ligne.test()
-    while(start):
-        print(bear.trouver_la_couleur())
+    while(not stop_event.is_set()):
+        print(detecteur_couleur.trouver_la_couleur())
         time.sleep(1)
 
 
