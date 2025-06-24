@@ -5,6 +5,11 @@ import HiwonderSDK.mecanum as mecanum
 import HiwonderSDK.FourInfrared as infrared
 import HiwonderSDK.Sonar as Sonar
 import CampTI.DetecteurDistance as DetecteurDistance
+import HiwonderSDK.Board as Board
+import time
+
+
+global start
 
 class SuiveurDeLigne:
 
@@ -35,6 +40,39 @@ class SuiveurDeLigne:
             # 1 (1,0,0,0)
             elif self.detection_gauche_seulement(sensor_data):
                 self.car.set_velocity(35,90,-0.3)
+            
+ 
+            time.sleep(0.01)
+    
+    def test(self):
+        while True:   
+            sensor_data = self.line.readData()
+            # 2，3 (0,1,1,0)
+            if self.detection_milieu(sensor_data):
+                self.car.set_velocity(35,90,0)
+                
+            # 3 (0,0,1,0)
+            elif self.detection_centre_droite(sensor_data):
+                self.car.set_velocity(35,90,0.03)
+                
+            # 2 (0,1,0,0)
+            elif self.detection_centre_gauche(sensor_data):
+                self.car.set_velocity(35,90,-0.03)
+                
+            # 4  (0,0,0,1)
+            elif self.detection_droite_seulement(sensor_data):
+                self.car.set_velocity(35,90,0.3)
+                
+            # 1 (1,0,0,0)
+            elif self.detection_gauche_seulement(sensor_data):
+                self.car.set_velocity(35,90,-0.3)
+                
+            elif self.all_black(sensor_data):
+                self.car.set_velocity(0,0,0)
+                return 
+
+            time.sleep(0.01)
+        print("Fin suiveur de ligne")
     
     # TODO 2 : À COMPLÉTER 
     # LE BUT DE CETTE FONCTION EST DE SUIVRE LA LIGNE JUSQU'À` CE QU'ON SOIT SUR UNE LIGNE PERPENDICULAIRE (UN STOP)
@@ -65,18 +103,23 @@ class SuiveurDeLigne:
     def detection_tous_les_capteurs(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si tous les capteurs sont activés.
-        :param sensor_data: Liste des données des capteurs.
+        
         :return: True si tous les capteurs sont activés, sinon False.
         """
         # (1,1,1,1)
         #LE BUT EST DE VÉRIFIER SI TOUS LES CAPTEURS SONT ACTIVÉS ET RETOURNER TRUE SI C'EST LE CAS
         # SINON RETOURNER FALSE
         return #REMPLIR ICI
-            
+    
+    def all_black(self,sensor_data:list[bool])-> bool:
+        # (1,1,1,1)
+        return sensor_data[0] and sensor_data[1] and sensor_data[2] and sensor_data[3]
+        
+        
     def detection_centre_droite(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si le capteur du milieu droit est activé.
-        :param sensor_data: Liste des données des capteurs.
+        
         :return: True si le capteur du milieu droit est activé, sinon False.
         """
         # (0,0,1,0)
@@ -85,7 +128,7 @@ class SuiveurDeLigne:
     def detection_centre_gauche(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si le capteur du milieu gauche est activé.
-        :param sensor_data: Liste des données des capteurs.
+        
         :return: True si le capteur du milieu gauche est activé, sinon False.
         """
         # (0,1,0,0)
@@ -94,7 +137,7 @@ class SuiveurDeLigne:
     def detection_milieu(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si les deux capteurs du milieu sont activés.
-        :param sensor_data: Liste des données des capteurs.
+        
         :return: True si les deux capteurs du milieu sont activés, sinon False.
         """
         # (0,1,1,0)
@@ -103,7 +146,7 @@ class SuiveurDeLigne:
     def detection_droite_seulement(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si SEULEMENT le capteur droit est activé.
-        :param sensor_data: Liste des données des capteurs.
+        
         :return: True si le capteur droit est activé, sinon False.
         """
         # (0,0,0,1)
@@ -112,9 +155,9 @@ class SuiveurDeLigne:
     def detection_gauche_seulement(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si SEULEMENT le capteur gauche est activé.
-        :param sensor_data: Liste des données des capteurs.
+        
         :return: True si le capteur gauche est activé, sinon False.
         """
         # (1,0,0,0)
         return sensor_data[0] and not sensor_data[1] and not sensor_data[2] and not sensor_data[3]
-        
+    

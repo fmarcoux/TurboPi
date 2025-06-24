@@ -7,7 +7,6 @@ import Camera
 import yaml_handle
 
 
-
 range_rgb = {
     'red': (0, 0, 255),
     'blue': (255, 0, 0),
@@ -24,7 +23,6 @@ class DetecteurDeCouleur:
 
     size = (640, 480)
     lab_data =  yaml_handle.get_yaml_data(yaml_handle.lab_file_path) 
-    camera  : Camera.Camera
     
     def __del__(self):
         if self.camera is not None:
@@ -32,9 +30,13 @@ class DetecteurDeCouleur:
             cv2.destroyAllWindows()
     
     def __init__(self):
+       
         self.camera = Camera.Camera()
+        self.camera.camera_close()
+        cv2.destroyAllWindows()
         self.camera.camera_open(correction=True)
-    
+        print("init done")
+        
     def obtenir_image(self):
         if self.camera.opened:
             frame = self.camera.frame
@@ -62,12 +64,17 @@ class DetecteurDeCouleur:
             Board.set_LED_color(1, 0, 0, 0)
 
     def trouver_la_couleur(self):
-        img = self.obtenir_image().copy()
+        img = self.obtenir_image()#.copy()
+        if img is None:
+            print("image none!!!")
+            return None
+        else:
+            img = img.copy()
    
         frame_resize = cv2.resize(img, self.size, interpolation=cv2.INTER_NEAREST)
         frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)
         
-        frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间
+        frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  
 
         color_area_max = None
         max_area = 0
