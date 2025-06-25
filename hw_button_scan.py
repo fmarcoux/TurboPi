@@ -38,6 +38,7 @@ if __name__ == "__main__":
                 stop_main_script = True 
    
         else:
+            count=0
             if start_main_script and not script_running:
                 print("Starting process")
                 start_main_script = False

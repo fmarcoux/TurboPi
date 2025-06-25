@@ -54,16 +54,44 @@ if __name__ == "__main__":
     Board.set_LED_color(1, 0, 0, 255)  
     time.sleep(0.5)
     
+    #suiveur_de_ligne.scan(180,16)
+
+    chassis.tourner_90_a_droite()
+    chassis.tourner_90_a_gauche()
+    
+    chassis.avance_x_metre(1)
+    
+    chassis.reculer_x_metre(1)
+    
+
+    chassis.tourner_a_droite(0.5)
+    time.sleep(1)
+    chassis.tourner_a_gauche(0.5) 
+    time.sleep(1)
+    chassis.translation_droite(50)
+    time.sleep(1)
+    chassis.translation_gauche(50)
+    time.sleep(1)
+    chassis.stop()
+    
+              
+    
+    #chassis.translation_droite(50)
+    #time.sleep(3*facteur_vitesse)
+    #chassis.stop()
+    
+ 
+    
     
     # ÉCRIRE VOTRE CODE ICI
     
-    suiveur_de_ligne.test()
-    print(sonar.detecteur_distance())
-    time.sleep(3)
-    suiveur_de_ligne.test()
-    while(not stop_event.is_set()):
-        print(detecteur_couleur.trouver_la_couleur())
-        time.sleep(1)
+    #suiveur_de_ligne.test()
+    #print(sonar.detecteur_distance())
+    #time.sleep(3)
+    #suiveur_de_ligne.test()
+    #while(not stop_event.is_set()):
+    #    print(detecteur_couleur.trouver_la_couleur())
+    #    time.sleep(1)
 
 
  #   

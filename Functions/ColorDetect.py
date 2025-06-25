@@ -296,7 +296,7 @@ if __name__ == '__main__':
     camera.camera_open(correction=True) # 开启畸变矫正,默认不开启
     signal.signal(signal.SIGINT, manual_stop)
     while __isRunning:
-        img = camera.frame
+        img = cv2.rotate(camera.frame,cv2.ROTATE_180)
         if img is not None:
             frame = img.copy()
             Frame = run(frame)  

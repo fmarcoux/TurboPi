@@ -62,9 +62,9 @@ class SuiveurDeLigne:
         # On convertit l'angle en radians
         angle *= deg_to_rad
         semi_angle = angle / 2
-        vitesse = vitesse * deg_to_rad # rad/s
+        vitesse = vitesse * deg_to_rad # rad/s 
         
-        temps_de_rotation = semi_angle / vitesse
+        temps_de_rotation = semi_angle / vitesse / 4.5
         def func(vitesse,temps_de_rotation):
             """Fonction pour faire tourner le véhicule."""
             self.car.set_velocity(0, 0, vitesse)

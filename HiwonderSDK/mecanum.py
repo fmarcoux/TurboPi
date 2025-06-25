@@ -7,6 +7,10 @@ import time
 import threading
 import HiwonderSDK.Board as Board
 
+facteur_vitesse = 180/(270+30)
+    
+
+
 class MecanumChassis:
     # A = 67  # mm
     # B = 59  # mm
@@ -78,35 +82,76 @@ class MecanumChassis:
         else:
             return self.set_velocity(velocity, direction, 0)
 
+    def valid_speed(self,speed):
+        assert speed > 30 , "la valeure minimale pour la vitesse est de 30"
+
+
     # Fonction personnalisée pour des mouvements simples
+    def stop(self):
+        self.set_velocity(0,0,0)
     
-    def tourner_à_droite(self,vitesse_de_rotation= 0.3):
+    
+    def tourner_a_droite(self,vitesse_de_rotation= 0.3):
         """Cette fonction permet de faire tourner le robot vers la droite.
         """
         self.set_velocity(0, 90, vitesse_de_rotation)
        
-    def tourner_à_gauche(self,vitesse_de_rotation=-0.3):
+    def tourner_a_gauche(self,vitesse_de_rotation=0.3):
         """Cette fonction permet de faire tourner le robot vers la gauche..
         """
-        self.set_velocity(0, 270, vitesse_de_rotation)
+        self.set_velocity(0, 270, -vitesse_de_rotation)
     
     def avancer(self, vitesse):
         """Cette fonction permet de faire avancer le robot.
         """
-        self.set_velocity(vitesse, 0, 0)
+        self.valid_speed(vitesse)
+        self.translation(0, vitesse)
         
     def reculer(self, vitesse):
         """Cette fonction permet de faire reculer le robot.
         """
-        self.set_velocity(vitesse, 180, 0)
+        self.valid_speed(vitesse)
+        self.translation(0, -vitesse)
               
     def translation_gauche(self, vitesse):
         """Cette fonction permet de faire translater le robot vers la gauche.
         """
-        self.set_velocity(vitesse, 270, 0)
+        self.valid_speed(vitesse)
+        self.translation(-vitesse,0)
         
     
     def translation_droite(self, vitesse):
         """Cette fonction permet de faire translater le robot vers la droite.
         """
-        self.set_velocity(vitesse, 90, 0)
+        self.valid_speed(vitesse)
+        self.translation(vitesse,0)
+
+    # Fonction personnalisée pour des mouvements encore plus simple (hardocde en temps aussi)
+    
+    def tourner_90_a_droite(self):
+        vitesse = 0.3333333
+        self.tourner_a_droite(vitesse)
+        time.sleep(1.5*facteur_vitesse)
+        self.set_velocity(0,0,0)
+        return
+        
+    def tourner_90_a_gauche(self):
+        vitesse = -0.3333333
+        self.tourner_a_droite(vitesse)
+        time.sleep(1.5*facteur_vitesse)
+        self.set_velocity(0,0,0)
+        return
+        
+    def avance_x_metre(self,m):
+        vitesse = 40 # equivaut a 20cm / seconde
+        temps = 5 * m
+        self.avancer(vitesse)
+        time.sleep(temps)
+        self.stop()
+        
+    def reculer_x_metre(self,m):
+        vitesse = 40 # equivaut a 20cm / seconde
+        temps = 5 * m
+        self.reculer(vitesse)
+        time.sleep(temps)
+        self.stop()
