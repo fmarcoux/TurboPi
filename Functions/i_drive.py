@@ -23,28 +23,28 @@ class SuiveurDeLigne:
 
 
     # FONCTION D'EXEMPLE QUI SUIT LA LIGNE
-    def suivre_la_ligne(self,vitesse=35):
+    def suivre_la_ligne(self):
         while not self.stop_event.is_set():   
             sensor_data = self.line.readData()
             # 2，3 (0,1,1,0)
             if self.detection_milieu(sensor_data):
-                self.car.set_velocity(vitesse,90,0)
+                self.car.set_velocity(35,90,0)
                 
             # 3 (0,0,1,0)
             elif self.detection_centre_droite(sensor_data):
-                self.car.set_velocity(vitesse,90,0.03)
+                self.car.set_velocity(35,90,0.03)
                 
             # 2 (0,1,0,0)
             elif self.detection_centre_gauche(sensor_data):
-                self.car.set_velocity(vitesse,90,-0.03)
+                self.car.set_velocity(35,90,-0.03)
                 
             # 4  (0,0,0,1)
             elif self.detection_droite_seulement(sensor_data):
-                self.car.set_velocity(vitesse,90,0.3)
+                self.car.set_velocity(35,90,0.3)
                 
             # 1 (1,0,0,0)
             elif self.detection_gauche_seulement(sensor_data):
-                self.car.set_velocity(vitesse,90,-0.3)
+                self.car.set_velocity(35,90,-0.3)
             
  
             time.sleep(0.001)
@@ -85,12 +85,39 @@ class SuiveurDeLigne:
         th.start()
         return th
 
-    def suivre_la_ligne_jusquau_stop(self):
-        
-            
+    def test(self):
+        while not self.stop_event.is_set():   
+            sensor_data = self.line.readData()
+            # 2，3 (0,1,1,0)
+            if self.detection_milieu(sensor_data):
+                self.car.set_velocity(35,90,0)
+                
+            # 3 (0,0,1,0)
+            elif self.detection_centre_droite(sensor_data):
+                self.car.set_velocity(35,90,0.03)
+                
+            # 2 (0,1,0,0)
+            elif self.detection_centre_gauche(sensor_data):
+                self.car.set_velocity(35,90,-0.03)
+                
+            # 4  (0,0,0,1)
+            elif self.detection_droite_seulement(sensor_data):
+                self.car.set_velocity(35,90,0.3)
+                
+            # 1 (1,0,0,0)
+            elif self.detection_gauche_seulement(sensor_data):
+                self.car.set_velocity(35,90,-0.3)
+                
+            elif self.all_black(sensor_data):
+                self.car.set_velocity(0,0,0)
+                return 
+
+            time.sleep(0.01)
+        print("Fin suiveur de ligne")
+    
     # TODO 2 : À COMPLÉTER 
     # LE BUT DE CETTE FONCTION EST DE SUIVRE LA LIGNE JUSQU'À` CE QU'ON SOIT SUR UNE LIGNE PERPENDICULAIRE (UN STOP)
-        
+    def suivre_la_ligne_jusquau_stop(self):
         #Écrire le code ici
         
         #Pour faire arrêter le véhicule, utiliser la ligne suivante
@@ -98,14 +125,13 @@ class SuiveurDeLigne:
         
         return
         
-
-    def suivre_la_ligne_jusqua_obstacle(self,distance_detection):
-    
     # TODO OPTIONNEL : À COMPLÉTER SI VOUS AVEZ LE TEMPS
     # LE BUT DE CETTE FONCTION EST DE SUIVRE LA LIGNE JUSQU'À CE QUE LE CAPTEUR DE DISTANCE VOIT UN OBSTACLE
     # INDICE : UTILISER LA CLASSE DetecteurDistance
-
-
+    # OPTIONNEL : POUR EVITER DES QUE LE CAPTEUR DE DISTANCE VOIT UN OBSTACLE MÊME S'IL Y EN A PAS,
+    # IL SERAIT JUDISCIEUX DE FAIRE PLUSIEURS VÉRIFICATIONS AVANT D'ARRETER LE VEHICULE
+    def suivre_la_ligne_jusqua_obstacle(self,distance_detection):
+        
         #Écrire le code ici
         
         #Pour faire arrêter le véhicule, utiliser la ligne suivante
@@ -113,19 +139,23 @@ class SuiveurDeLigne:
         return
     
     
-    
+    #TODO 1 : À COMPLETER
     def detection_tous_les_capteurs(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si tous les capteurs sont activés.
         
         :return: True si tous les capteurs sont activés, sinon False.
         """
-        #TODO 1 : À COMPLETER
         # (1,1,1,1)
         #LE BUT EST DE VÉRIFIER SI TOUS LES CAPTEURS SONT ACTIVÉS ET RETOURNER TRUE SI C'EST LE CAS
         # SINON RETOURNER FALSE
         return #REMPLIR ICI
-            
+    
+    def all_black(self,sensor_data:list[bool])-> bool:
+        # (1,1,1,1)
+        return sensor_data[0] and sensor_data[1] and sensor_data[2] and sensor_data[3]
+        
+        
     def detection_centre_droite(self,sensor_data:list[bool]) -> bool:
         """
         Détecte si le capteur du milieu droit est activé.

@@ -135,6 +135,27 @@ class MecanumChassis:
         self.set_velocity(0,0,0)
         return
         
+    def tourner_X_a_droite(self,angle):
+        vitesse = 0.3333333
+        
+        facteur = angle*1.5/90
+        
+        self.tourner_a_droite(vitesse)
+        time.sleep(facteur*facteur_vitesse)
+        self.set_velocity(0,0,0)
+        return
+        
+        
+    def tourner_X_a_gauche(self,angle):
+        vitesse = -0.3333333
+        
+        facteur = angle*1.5/90
+        
+        self.tourner_a_droite(vitesse)
+        time.sleep(facteur*facteur_vitesse)
+        self.set_velocity(0,0,0)
+        return
+        
     def tourner_90_a_gauche(self):
         vitesse = -0.3333333
         self.tourner_a_droite(vitesse)

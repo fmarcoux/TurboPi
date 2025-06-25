@@ -1,6 +1,3 @@
-
-
-
 import sys
 sys.path.append('/home/pi/TurboPi/')
 import CampTI.DetecteurCouleur as DetecteurCouleur
@@ -12,9 +9,9 @@ import time
 import signal
 import HiwonderSDK.mecanum as mecanum
 from multiprocessing import Event
+import numpy as np
 
-
-
+import HiwonderSDK.BuzzerControlDemo as buzz
 #Stop event utilise pour arrêter proprement le programme
 stop_event = Event()
 
@@ -44,6 +41,7 @@ signal.signal(signal.SIGINT, Stop)
 if __name__ == "__main__":
     
     # Indice visuel que le code est démarré, on change la LED de couleur
+        
     Board.set_LED_color(0, 255, 0, 0)  # Rouge
     Board.set_LED_color(1, 255, 0, 0)  
     time.sleep(0.5) 
@@ -54,48 +52,15 @@ if __name__ == "__main__":
     Board.set_LED_color(1, 0, 0, 255)  
     time.sleep(0.5)
     
-    #suiveur_de_ligne.scan(180,16)
-
-    chassis.tourner_90_a_droite()
-    chassis.tourner_90_a_gauche()
     
-    chassis.avance_x_metre(1)
+    # ECRIRE VOTRE CODE ICI.
+   
     
-    chassis.reculer_x_metre(1)
-    
-
-    chassis.tourner_a_droite(0.5)
-    time.sleep(1)
-    chassis.tourner_a_gauche(0.5) 
-    time.sleep(1)
-    chassis.translation_droite(50)
-    time.sleep(1)
-    chassis.translation_gauche(50)
-    time.sleep(1)
-    chassis.stop()
-    
-              
-    
-    #chassis.translation_droite(50)
-    #time.sleep(3*facteur_vitesse)
-    #chassis.stop()
-    
- 
-    
-    
-    # ÉCRIRE VOTRE CODE ICI
-    
-    #suiveur_de_ligne.test()
-    #print(sonar.detecteur_distance())
-    #time.sleep(3)
-    #suiveur_de_ligne.test()
-    #while(not stop_event.is_set()):
-    #    print(detecteur_couleur.trouver_la_couleur())
-    #    time.sleep(1)
+    #TODO 3: Avancer pendant 1 secondes lorsque le capteur de distance
+    # détecte un object à moins de 20 cm (200 mm)
 
 
- #   
-#
-    #suiveur_de_ligne.suivre_la_ligne()
+    
+
     
     

@@ -54,7 +54,7 @@ _stop = False
 color_list = []
 size = (640, 480)
 __isRunning = False
-detect_color = 'None'
+detects_color = 'None'
 start_pick_up = False
 draw_color = range_rgb["black"]
 

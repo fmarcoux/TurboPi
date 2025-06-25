@@ -151,6 +151,9 @@ def move():
             if detect_color != 'red':
                 set_rgb(detect_color)
                 sensor_data = line.readData()
+                
+                print(sensor_data)
+                
                 # 2，3
                 if not sensor_data[0] and sensor_data[1] and sensor_data[2] and not sensor_data[3]:
                     car.set_velocity(35,90,0)
@@ -172,6 +175,10 @@ def move():
                     car.set_velocity(35,90,-0.3)
                     car_stop = True
                 
+                #elif not sensor_data[0] and not sensor_data[1] and not sensor_data[2] and not sensor_data[3]:
+                #    car.set_velocity(0,0,0)
+                    
+                    
                 elif sensor_data[0] and sensor_data[1] and sensor_data[2] and sensor_data[3]:
                     if car_stop:
                         car.set_velocity(0,90,0)
@@ -285,7 +292,7 @@ if __name__ == '__main__':
     camera.camera_open(correction=True)
     signal.signal(signal.SIGINT, manualcar_stop)
     while __isRunning:
-        img = camera.frame
+        img = cv2.rotate(camera.frame,cv2.ROTATE_180)
         if img is not None:
             frame = img.copy()
             Frame = run(frame)  

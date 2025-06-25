@@ -96,7 +96,7 @@ class DetecteurDeCouleur:
                 areaMaxContour, area_max = getAreaMaxContour(contours)  # Trouver le plus grand contour
                 if areaMaxContour is not None:
                     if area_max > max_area: # Trouver la plus grande surface 
-                        print(f"Color: {i}, Area: {area_max}")
+                        #print(f"Color: {i}, Area: {area_max}")
                         max_area = area_max
                         color_area_max = i
 
@@ -125,10 +125,10 @@ def getAreaMaxContour(contours):
         contour_area_temp = abs(cv2.contourArea(c))  # Calculate the contour area
         if contour_area_temp > contour_area_max:
             contour_area_max = contour_area_temp
-            # 只有在面积大于300时，最大面积的轮廓才是有效的，以过滤干扰
+            
             
             if contour_area_temp > 300:  
                 area_max_contour =c
 
-    return area_max_contour, contour_area_max  # 返回最大的轮廓
+    return area_max_contour, contour_area_max 
 
